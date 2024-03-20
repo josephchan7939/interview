@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: gyufet879
+      MYSQL_DATABASE: interview
+      MYSQL_USER: interview
+      MYSQL_PASSWORD: test1234
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/mysql:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-docker-mysql
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
